@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class MouseCircleBehaviour : MonoBehaviour
 {
 
-    private Vector2 mousepos;
+    [SerializeField] Vector2 mousepos;
     private Transform trans;
+    [SerializeField] Camera cam;
     void Start()
     {
         trans = GetComponent<Transform>();
@@ -13,7 +15,7 @@ public class MouseCircleBehaviour : MonoBehaviour
 
     void mousePosUpdate()
     {
-        mousepos= Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousepos=cam.ScreenToWorldPoint(Input.mousePosition);
 
     }
     void transUpdate()

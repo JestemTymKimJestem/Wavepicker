@@ -7,33 +7,59 @@ public class CameraFollowingBehaviour : MonoBehaviour
     [SerializeField] Transform playerTrans;
     [SerializeField] float changeDistance;
     [SerializeField] float speed;
+    [SerializeField] float modifierMax;
+    [SerializeField] float xModifier;
+    [SerializeField] float yModifier;
+
+    [SerializeField] float roundingParameter=0.95f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cameraTrans=GetComponent<Transform>();
     }
+    void updateModifiers()
+    {
+        if(Input.GetAxis("Horizontal")==1f)
+            xModifier+=Time.deltaTime*speed;
+        if(Input.GetAxis("Horizontal")==-1f)
+            xModifier-=Time.deltaTime*speed;
+        if(Input.GetAxis("Vertical")==1f)
+            yModifier+=Time.deltaTime*speed;
+        if(Input.GetAxis("Vertical")==-1f)
+            yModifier-=Time.deltaTime*speed;
+
+        if(yModifier>modifierMax)
+            yModifier=modifierMax;
+        if(yModifier<-modifierMax)
+            yModifier=-modifierMax;
+        if(xModifier>modifierMax)
+            xModifier=modifierMax;
+        if(xModifier<-modifierMax)
+            xModifier=-modifierMax;
+
+        if(math.abs(yModifier)>0.1f && Input.GetAxis("Vertical")==0)
+            yModifier=yModifier*roundingParameter;
+        if(math.abs(xModifier)>0.1f && Input.GetAxis("Horizontal")==0)
+            xModifier=xModifier*roundingParameter;
+    }
     void updateCameraTrans()
 {
     // sprawdzamy dystans 2D
-    if (Vector2.Distance(playerTrans.position, cameraTrans.position) > changeDistance)
-    {
+    
         Vector3 desiredPos = new Vector3(
-            playerTrans.position.x,
-            playerTrans.position.y,
+            playerTrans.position.x+xModifier,
+            playerTrans.position.y+yModifier,
             cameraTrans.position.z // zachowujemy Z kamery
         );
 
         // smooth follow
-        cameraTrans.position = Vector3.Lerp(
-            cameraTrans.position,
-            desiredPos,
-            speed * Time.deltaTime
-        );
-    }
+        cameraTrans.position = Vector3.Lerp(cameraTrans.position,desiredPos,speed * Time.deltaTime);
+    
 }
     // Update is called once per frame
     void Update()
     {
+        updateModifiers();
         updateCameraTrans();
     }
 }

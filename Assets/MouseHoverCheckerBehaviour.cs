@@ -17,6 +17,7 @@ public class MouseHoverCheckerBehaviour : MonoBehaviour
     [SerializeField] FunctionPlotter fp;
     [SerializeField] float load=0;
     [SerializeField] int timeToLoad=5;
+    [SerializeField] Camera cam;
 
     void info()
     {
@@ -104,7 +105,7 @@ public class MouseHoverCheckerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         hit = Physics2D.Raycast(mousePos, Vector2.zero);
         tagInfo();
         LoadOnARightClick();

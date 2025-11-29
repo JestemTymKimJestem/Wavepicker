@@ -10,12 +10,11 @@ public class AimController : MonoBehaviour
     [SerializeField] signalGenerator playerSignalGen;
     
 
-    Camera mainCam;
+    [SerializeField] Camera mainCam;
 
     void Start()
     {
         trans = GetComponent<Transform>();
-        mainCam = Camera.main;
     }
 
     void Update()

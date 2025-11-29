@@ -3,6 +3,8 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [SerializeField] GameObject gun;
     void Start()
     {
         
@@ -13,7 +15,10 @@ public class PlayerBehaviour : MonoBehaviour
     {
         
     }
-
+    public void getAGun()
+    {
+        gun.gameObject.SetActive(true);
+    }
     void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag=="camera")
