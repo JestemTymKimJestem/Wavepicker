@@ -12,6 +12,9 @@ public class CameraFollowingBehaviour : MonoBehaviour
     [SerializeField] float yModifier;
 
     [SerializeField] float roundingParameter=0.95f;
+    [SerializeField] TimerBehaviour timer;
+    [SerializeField] float xOffset;
+    [SerializeField] float yOffset;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,24 +45,23 @@ public class CameraFollowingBehaviour : MonoBehaviour
         if(math.abs(xModifier)>0.1f && Input.GetAxis("Horizontal")==0)
             xModifier=xModifier*roundingParameter;
     }
+    public void updateYOffset(float y)
+    {
+        yOffset=y;
+    }
     void updateCameraTrans()
-{
-    // sprawdzamy dystans 2D
+    {
     
-        Vector3 desiredPos = new Vector3(
-            playerTrans.position.x+xModifier,
-            playerTrans.position.y+yModifier,
-            cameraTrans.position.z // zachowujemy Z kamery
-        );
+        Vector3 desiredPos = new Vector3(playerTrans.position.x+xModifier+xOffset,playerTrans.position.y+yModifier+yOffset,cameraTrans.position.z);
 
-        // smooth follow
         cameraTrans.position = Vector3.Lerp(cameraTrans.position,desiredPos,speed * Time.deltaTime);
     
-}
+    }
     // Update is called once per frame
     void Update()
     {
+        if(!timer.isTimePaused){
         updateModifiers();
-        updateCameraTrans();
+        updateCameraTrans();}
     }
 }

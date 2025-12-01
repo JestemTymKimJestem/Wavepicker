@@ -36,8 +36,5 @@ public class TimerBehaviour : MonoBehaviour
             isTimeRunOut=true;
             lostTime();
         }
-        if(time>10*Mathf.PI){
-            time=0f;
-            }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class AimController : MonoBehaviour
@@ -8,6 +9,7 @@ public class AimController : MonoBehaviour
     public float projectileSpeed = 10f;
     public Transform trans;
     [SerializeField] signalGenerator playerSignalGen;
+    [SerializeField] TimerBehaviour timer;
     
 
     [SerializeField] Camera mainCam;
@@ -19,8 +21,9 @@ public class AimController : MonoBehaviour
 
     void Update()
     {
+        if(!timer.isTimePaused){
         AimAtMouse();
-        ShootOnClick();
+        ShootOnClick();}
     }
 
     void AimAtMouse()

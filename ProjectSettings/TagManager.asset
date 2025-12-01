@@ -10,6 +10,7 @@ TagManager:
   - gate
   - graph
   - camera
+  - checkpoint
   layers:
   - Default
   - TransparentFX
