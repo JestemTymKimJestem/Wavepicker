@@ -6,6 +6,7 @@ public class BulletBehaviour : MonoBehaviour
 
     [SerializeField] signalGenerator signal;
     [SerializeField] string[] tags;
+    [SerializeField] float timeToDeath =10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,7 +17,9 @@ public class BulletBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(timeToDeath<0f)
+            Destroy(gameObject);
+        timeToDeath-=Time.deltaTime;
     }
     public void functionTransfer(GameObject GO)
     {
@@ -30,5 +33,7 @@ public class BulletBehaviour : MonoBehaviour
         foreach (string tag in tags)
             if (collision.gameObject.CompareTag(tag))
                 functionTransfer(collision.gameObject);
+            else
+             timeToDeath-=1f;
     }
 }

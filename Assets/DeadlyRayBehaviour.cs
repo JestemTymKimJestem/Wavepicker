@@ -19,9 +19,18 @@ public class DeadlyRayBehaviour : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("TEST");
+        if(collision.gameObject.tag=="Player")
+            collision.gameObject.GetComponent<PlayerBehaviour>().playerDied();
+            
+        else
+            killItWithFire(collision.gameObject);
+    }
+    void OnCollisionStay2D(Collision2D collision)
+    {
         if(collision.gameObject.tag=="Player")
             collision.gameObject.GetComponent<PlayerBehaviour>().playerDied();
         else
-            killItWithFire(collision.gameObject);
+        killItWithFire(collision.gameObject);
     }
 }

@@ -16,7 +16,7 @@ public class MouseHoverCheckerBehaviour : MonoBehaviour
     [SerializeField] string tagNow = "";
     [SerializeField] FunctionPlotter fp;
     [SerializeField] float load=0;
-    [SerializeField] int timeToLoad=5;
+    [SerializeField] float timeToLoad=0.5f;
     [SerializeField] Camera cam;
 
     void info()

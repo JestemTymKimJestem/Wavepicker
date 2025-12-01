@@ -13,7 +13,7 @@ public class GateBehaviour : MonoBehaviour
 
     void checkingForSignal()
     {
-        if(-0.1f<value && value<0.1f)
+        if(-0.5f<value && value<0.5f)
         isOpen=true;
         else
         isOpen=false;

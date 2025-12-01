@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class LyingGunOnTheFloorBehaviour : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] GameObject firstTutorialBox;
+    [SerializeField] GameObject secondTutorialBox;    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
@@ -19,7 +20,12 @@ public class LyingGunOnTheFloorBehaviour : MonoBehaviour
         if(collision.gameObject.tag=="Player")
                {
                 collision.gameObject.GetComponent<PlayerBehaviour>().getAGun();
+                    firstTutorialBox.SetActive(false);
+                    secondTutorialBox.SetActive(true);
+                    
+                    
                     Destroy(this.gameObject);
+
                 }
     }
 }
