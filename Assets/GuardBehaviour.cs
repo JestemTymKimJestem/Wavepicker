@@ -37,7 +37,7 @@ public class GuardBehaviour : MonoBehaviour
     void checkingArea()
     {
         funcArea=fp.getFunctionArea();
-        if(funcArea<= 0.5 ){
+        if(funcArea<= 1 ){
             isWorking=false;
             camera.SetActive(false);
         }
