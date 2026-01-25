@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GameOverController : MonoBehaviour
 {
+    [SerializeField] DebuControllerBehaviour debugController;
     [SerializeField] Vector3 lastCheckpointPosition;
     [SerializeField] GameObject player;
     [SerializeField] TimerBehaviour timer;
@@ -22,14 +23,15 @@ public class GameOverController : MonoBehaviour
 
     public void died()
     {
+        if(debugController.canDie){
         timer.isTimePaused=true;
         deadMenu.SetActive(true);
-
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        debugController=GameObject.Find("DebugController").GetComponent<DebuControllerBehaviour>();
     }
 
     // Update is called once per frame

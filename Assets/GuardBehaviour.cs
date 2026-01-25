@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class GuardBehaviour : MonoBehaviour
@@ -14,24 +15,40 @@ public class GuardBehaviour : MonoBehaviour
     [Header("Finish positions")]
     public float finishX=0f;
     public float finishY=0f;
+    [SerializeField] Rigidbody2D rb;
 
     [SerializeField] float funcValue=0f;
     [SerializeField] float funcArea=0f;
     [SerializeField] bool isWorking=true;
-    void moveX(){
-        funcValue=fp.GetValue();
-        float newX=Mathf.LerpUnclamped(startX,finishX,(funcValue+1f)/2f);
-        guard.position=new Vector3(newX,guard.position.y,guard.position.z);
+    
+    void alternativeMoveX()
+    {
+    float funcValue = fp.GetValue();
+    float t = (funcValue + 1f) * 0.5f;
+    float newX = Mathf.LerpUnclamped(startX, finishX, t);
+
+    if (Mathf.Abs(rb.position.x - newX) > 0.1f)
+        {
+            rb.MovePosition(new Vector2(newX, rb.position.y));
+        }
     }
-    void moveY(){
-         funcValue=fp.GetValue();
-        float newY=Mathf.LerpUnclamped(startY,finishY,(funcValue+1f)/2f);
-        guard.position=new Vector3(guard.position.x,newY,guard.position.z);
+
+    void alternativeMoveY()
+    {
+    float funcValue = fp.GetValue();
+    float t = (funcValue + 1f) * 0.5f;
+    float newY = Mathf.LerpUnclamped(startY, finishY, t);
+
+    if (Mathf.Abs(rb.position.y - newY) > 0.1f)
+        {
+            rb.MovePosition(new Vector2(rb.position.x, newY));
+        }   
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         guard=GetComponent<Transform>();
+        rb=GetComponent<Rigidbody2D>();
     }
 
     void checkingArea()
@@ -47,16 +64,15 @@ public class GuardBehaviour : MonoBehaviour
             camera.SetActive(true);
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        
         checkingArea();
         if(moveHorizontal){
-            moveX();
+            alternativeMoveX();
         }
         if(moveVertical){
-            moveY();
+            alternativeMoveY();
         }
     }
 }
