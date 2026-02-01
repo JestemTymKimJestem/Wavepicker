@@ -188,6 +188,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GuardCameraBehaviour
   FR: {fileID: 885082997581768124}
   trans: {fileID: 3891290789783157260}
+  cameraAngle: 45
+  GB: {fileID: 3040437746904774509}
 --- !u!1 &8497586662921749239
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,9 +247,11 @@ MonoBehaviour:
   startY: 0
   finishX: 0
   finishY: 0
+  rb: {fileID: 0}
   funcValue: 0
   funcArea: 0
   isWorking: 1
+  cameraAngle: 45
 --- !u!212 &676873848855961510
 SpriteRenderer:
   m_ObjectHideFlags: 0

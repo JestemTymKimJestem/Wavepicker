@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GuardCameraBehaviour : MonoBehaviour
@@ -5,17 +6,22 @@ public class GuardCameraBehaviour : MonoBehaviour
     [SerializeField] FunctionPlotter FR;
     [SerializeField] Transform trans;
 
+    [SerializeField] float cameraAngle=45f;
+    [SerializeField] GuardBehaviour GB;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         trans = GetComponent<Transform>();
     }
 
+    void updateAngle()
+    {
+        cameraAngle = GB.cameraAngle;
+    }
     void rotateCamera()
     {
-        Vector2 dir = FR.directionVector;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        trans.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        updateAngle();
+        trans.rotation = Quaternion.Euler(0f, 0f,  cameraAngle);
 
     }
         // Update is called once per frame

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GuardBehaviour : MonoBehaviour
 {
-    private Transform guard;
     [SerializeField] public FunctionPlotter fp;
     [SerializeField] bool moveHorizontal=true;
     [SerializeField] bool moveVertical=false;
@@ -20,34 +19,39 @@ public class GuardBehaviour : MonoBehaviour
     [SerializeField] float funcValue=0f;
     [SerializeField] float funcArea=0f;
     [SerializeField] bool isWorking=true;
-    
-    void alternativeMoveX()
-    {
-    float funcValue = fp.GetValue();
-    float t = (funcValue + 1f) * 0.5f;
-    float newX = Mathf.LerpUnclamped(startX, finishX, t);
 
-    if (Mathf.Abs(rb.position.x - newX) > 0.1f)
+    [SerializeField] public float cameraAngle=45f;
+    private Vector2 lastPosition;
+    
+    void updateCameraAngle()
+    {
+    Vector2 movement = rb.position - lastPosition;
+
+    if (movement.sqrMagnitude > 0.0001f) // żeby uniknąć liczenia kąta gdy stoi
         {
-            rb.MovePosition(new Vector2(newX, rb.position.y));
+        cameraAngle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+         Debug.Log(this.gameObject.name + " Angle: " + cameraAngle);
+        //camera.transform.rotation = Quaternion.Euler(0f, 0f, angle - cameraAngle);
         }
+
     }
 
-    void alternativeMoveY()
+    void moving()
     {
-    float funcValue = fp.GetValue();
-    float t = (funcValue + 1f) * 0.5f;
-    float newY = Mathf.LerpUnclamped(startY, finishY, t);
+        float funcValue = fp.GetValue();
+        lastPosition=rb.position;
+        Vector3 newPosition = rb.position;
+        if(moveHorizontal)
+        newPosition.x = Mathf.LerpUnclamped(startX, finishX, (funcValue + 1f) * 0.5f);
+        if(moveVertical)
+        newPosition.y = Mathf.LerpUnclamped(startY, finishY, (funcValue + 1f) * 0.5f);
+        rb.position = newPosition;
 
-    if (Mathf.Abs(rb.position.y - newY) > 0.1f)
-        {
-            rb.MovePosition(new Vector2(rb.position.x, newY));
-        }   
+        updateCameraAngle();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        guard=GetComponent<Transform>();
         rb=GetComponent<Rigidbody2D>();
     }
 
@@ -68,11 +72,6 @@ public class GuardBehaviour : MonoBehaviour
     {
         
         checkingArea();
-        if(moveHorizontal){
-            alternativeMoveX();
-        }
-        if(moveVertical){
-            alternativeMoveY();
-        }
+        moving();
     }
 }
